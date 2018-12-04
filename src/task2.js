@@ -5,6 +5,7 @@ const rl = readline.createInterface({
 });
 
 let id_indices = [];
+let ids = [];
 
 rl.on('line', (line) => {
   let index = new Map();
@@ -16,10 +17,12 @@ rl.on('line', (line) => {
     index.set(c, count);
   }
   id_indices.push(index);
+  ids.push(line);
 });
 
 rl.on('close', () => {
   console.log(`Checksum is ${calculate_checksum(id_indices)}`);
+  console.log(`Common letters in correct IDs: ${find_closest(ids)}`);
 });
 
 function calculate_checksum(id_indices) {
@@ -40,4 +43,36 @@ function calculate_checksum(id_indices) {
     }
   }
   return doubles * triples;
+}
+
+function find_closest(ids) {
+  while(ids.length > 0) {
+    const id = ids.pop();
+    for(const it of ids) {
+      if(distance(id, it) == 1) {
+        return remove_different(id, it);
+      }
+    }
+  }
+  return "";
+}
+
+function distance(left, right) {
+  let distance = 0;
+  for(let i = 0; i < left.length; ++i) {
+    if(left[i] != right[i]) {
+      ++distance;
+    }
+  }
+  return distance;
+}
+
+function remove_different(left, right) {
+  let same = "";
+  for(let i = 0; i < left.length; ++i) {
+    if(left[i] == right[i]) {
+      same = same.concat(left[i]);
+    }
+  }
+  return same;
 }

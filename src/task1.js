@@ -14,19 +14,19 @@ function find_repeated_frequency(frequency_changes) {
   return frequency;
 }
 
-const readline = require('readline');
+function parser(line) {
+  return Number(line);
+}
 
-const rl = readline.createInterface({
-  input: process.stdin,
-});
+const task = require('./task');
 
-let frequency_changes = [];
+const processor1 = new task.Processor(
+  (frequency_changes) => frequency_changes.reduce((x, y) => x + y, 0),
+  (frequency) => `Final frequency is ${frequency}`
+);
 
-rl.on('line', (line) => {
-  frequency_changes.push(Number(line));
-});
+const processor2 = new task.Processor(
+  find_repeated_frequency,
+  (repeated_frequency) => `Repeated frequency is ${repeated_frequency}`);
 
-rl.on('close', () => {
-  console.log(`Final frequency is ${frequency_changes.reduce((x, y) => x + y, 0)}`);
-  console.log(`Repeated frequency is ${find_repeated_frequency(frequency_changes)}`);
-});
+const instance = new task.Task(parser, parser, processor1, processor2);

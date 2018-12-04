@@ -1,30 +1,3 @@
-const readline = require('readline');
-
-const rl = readline.createInterface({
-  input: process.stdin,
-});
-
-let id_indices = [];
-let ids = [];
-
-rl.on('line', (line) => {
-  let index = new Map();
-  for (const c of line) {
-    let count = 1;
-    if (index.has(c)) {
-      count = index.get(c) + 1;
-    }
-    index.set(c, count);
-  }
-  id_indices.push(index);
-  ids.push(line);
-});
-
-rl.on('close', () => {
-  console.log(`Checksum is ${calculate_checksum(id_indices)}`);
-  console.log(`Common letters in correct IDs: ${find_closest(ids)}`);
-});
-
 function calculate_checksum(id_indices) {
   let doubles = 0;
   let triples = 0;
@@ -82,3 +55,23 @@ function remove_different(left, right) {
   }
   return same;
 }
+
+const task = require('./task');
+
+function index_parser(line) {
+  let index = new Map();
+  for (const c of line) {
+    let count = 1;
+    if (index.has(c)) {
+      count = index.get(c) + 1;
+    }
+    index.set(c, count);
+  }
+  return index;
+};
+
+const instance = new task.Task(
+  index_parser,
+  (line) => line,
+  new task.Processor(calculate_checksum, (checksum) => `Checksum is ${checksum}`),
+  new task.Processor(find_closest, (id) => `Common letters in correct IDs: ${id}`));

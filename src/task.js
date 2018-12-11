@@ -5,29 +5,41 @@ class Processor {
   }
 }
 
+class Parser {
+  constructor(parser, data) {
+    this.parser = parser;
+    this.data = data;
+  }
+
+  parse(line) {
+    this.data.push(this.parser(line));
+  }
+
+  getData() {
+    return this.data;
+  }
+}
+
 class Task {
   constructor(parser1, parser2, processor1, processor2) {
     const readline = require('readline');
-    this.parser1 = parser1;
-    this.parser2 = parser2;
-    this.processor1 = processor1;
-    this.processor2 = processor2;
-    this.data1 = [];
-    this.data2 = [];
     this.rl = readline.createInterface({
       input: process.stdin,
     });
     this.rl.on('line', (line) => {
-      this.data1.push(parser1(line));
-      this.data2.push(parser2(line));
+      parser1.parse(line);
+      if (parser2 != null) {
+        parser2.parse(line);
+      }
     });
 
     this.rl.on('close', () => {
-      console.log(this.processor1.format(this.processor1.process(this.data1)));
-      console.log(this.processor2.format(this.processor2.process(this.data2)));
+      console.log(processor1.format(processor1.process(parser1.getData())));
+      console.log(processor2.format(processor2.process(parser2 == null ? parser1.getData() : parser2.getData())));
     });
   }
 }
 
 module.exports.Processor = Processor;
+module.exports.Parser = Parser;
 module.exports.Task = Task;

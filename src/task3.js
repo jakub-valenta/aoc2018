@@ -6,7 +6,7 @@ class Point {
     this.y = Number(y);
   }
 
-  move_by(dx, dy) {
+  moveBy(dx, dy) {
     return new Point(this.x + dx, this.y + dy);
   }
 
@@ -26,7 +26,7 @@ class Claim {
   claim(fabric) {
     for (let dx = 0; dx < this.length; ++dx) {
       for (let dy = 0; dy < this.height; ++dy) {
-        fabric.claim(this.position.move_by(dx, dy), this.id);
+        fabric.claim(this.position.moveBy(dx, dy), this.id);
       }
     }
   }
@@ -47,7 +47,7 @@ class Fabric {
     this.fabric.get(key).push(id);
   }
 
-  count_overlaping() {
+  countOverlaping() {
     let count = 0;
     for (const [point, ids] of this.fabric) {
       if (ids.length > 1) {
@@ -57,7 +57,7 @@ class Fabric {
     return count;
   }
 
-  find_intact() {
+  findIntact() {
     if (this.claims.size > 1) {
       for (const [point, ids] of this.fabric) {
         if (ids.length > 1) {
@@ -77,30 +77,30 @@ function parser(line) {
   return new Claim(tokens[1], new Point(tokens[2], tokens[3]), tokens[4], tokens[5]);
 }
 
-function find_overlaping(claims) {
+function findOverlaping(claims) {
   const fabric = new Fabric();
   for (const claim of claims) {
     claim.claim(fabric);
   }
-  return fabric.count_overlaping();
+  return fabric.countOverlaping();
 }
 
-function find_intact(claims) {
+function findIntact(claims) {
   const fabric = new Fabric();
   for (const claim of claims) {
     claim.claim(fabric);
   }
-  return fabric.find_intact();
+  return fabric.findIntact();
 }
 
 const processor1 = new task.Processor(
-  (claims) => find_overlaping(claims),
+  (claims) => findOverlaping(claims),
   (overlap_size) => `Claims overlap ${overlap_size} square inches`
 );
 
 const processor2 = new task.Processor(
-  (claims) => find_intact(claims),
+  (claims) => findIntact(claims),
   (claim) => `Intact claim id: ${claim}`
 );
 
-const instance = new task.Task(parser, parser, processor1, processor2);
+const instance = new task.Task(new task.Parser(parser, []), null, processor1, processor2);

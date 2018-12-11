@@ -1,4 +1,4 @@
-function calculate_checksum(id_indices) {
+function calculateChecksum(id_indices) {
   let doubles = 0;
   let triples = 0;
   for (const id_index of id_indices) {
@@ -24,12 +24,12 @@ function calculate_checksum(id_indices) {
   return doubles * triples;
 }
 
-function find_closest(ids) {
+function findClosest(ids) {
   while (ids.length > 0) {
     const id = ids.pop();
     for (const it of ids) {
       if (distance(id, it) == 1) {
-        return remove_different(id, it);
+        return removeDifferent(id, it);
       }
     }
   }
@@ -46,7 +46,7 @@ function distance(left, right) {
   return distance;
 }
 
-function remove_different(left, right) {
+function removeDifferent(left, right) {
   let same = "";
   for (let i = 0; i < left.length; ++i) {
     if (left[i] == right[i]) {
@@ -58,7 +58,7 @@ function remove_different(left, right) {
 
 const task = require('./task');
 
-function index_parser(line) {
+function indexParser(line) {
   let index = new Map();
   for (const c of line) {
     let count = 1;
@@ -71,7 +71,7 @@ function index_parser(line) {
 };
 
 const instance = new task.Task(
-  index_parser,
-  (line) => line,
-  new task.Processor(calculate_checksum, (checksum) => `Checksum is ${checksum}`),
-  new task.Processor(find_closest, (id) => `Common letters in correct IDs: ${id}`));
+  new task.Parser(indexParser, []),
+  new task.Parser((line) => line, []),
+  new task.Processor(calculateChecksum, (checksum) => `Checksum is ${checksum}`),
+  new task.Processor(findClosest, (id) => `Common letters in correct IDs: ${id}`));

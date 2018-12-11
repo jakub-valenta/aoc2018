@@ -28,14 +28,16 @@ class Task {
     });
     this.rl.on('line', (line) => {
       parser1.parse(line);
-      if (parser2 != null) {
+      if (parser2 !== null) {
         parser2.parse(line);
       }
     });
 
     this.rl.on('close', () => {
       console.log(processor1.format(processor1.process(parser1.getData())));
-      console.log(processor2.format(processor2.process(parser2 == null ? parser1.getData() : parser2.getData())));
+      if (processor2 !== null) {
+        console.log(processor2.format(processor2.process(parser2 == null ? parser1.getData() : parser2.getData())));
+      }
     });
   }
 }

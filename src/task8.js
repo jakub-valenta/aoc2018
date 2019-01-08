@@ -32,7 +32,7 @@ class Node {
     ret += "], \"metadata\": [";
     separator = '';
     for (let item of this.metadata) {
-      ret += separator + '\"' + item.toString() + '\"';
+      ret += separator + '"' + item.toString() + '"';
       separator = ',';
     }
     return ret + "] }";
@@ -92,4 +92,4 @@ const processor2 = new task.Processor(
   (result) => `Metadata value: ${result}`
 );
 
-const instance = new task.Task(new Parser(), null, processor1, processor2);
+new task.Task(new Parser(), null, processor1, processor2);

@@ -81,7 +81,7 @@ class Game {
       }
     }
     let max = 0;
-    for (let [player, score] of this.score) {
+    for (let [, score] of this.score) {
       if (score > max) {
         max = score;
       }
@@ -106,4 +106,4 @@ const processor2 = new task.Processor(
   (score) => `Winning score 100 times larger: ${score}`
 );
 
-const instance = new task.Task(new Game(), null, processor1, processor2);
+new task.Task(new Game(), null, processor1, processor2);

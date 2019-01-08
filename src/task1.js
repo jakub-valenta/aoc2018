@@ -2,7 +2,7 @@ function findRepeatedFrequency(frequency_changes) {
   let frequencies = new Set();
   let frequency = 0;
   let i = 0;
-  while (true) {
+  for (;;) {
     frequency += frequency_changes[i];
     if (frequencies.has(frequency)) {
       break;
@@ -12,10 +12,6 @@ function findRepeatedFrequency(frequency_changes) {
     i = (i + 1) % frequency_changes.length;
   }
   return frequency;
-}
-
-function parser(line) {
-  return Number(line);
 }
 
 const task = require('./task');
@@ -29,7 +25,7 @@ const processor2 = new task.Processor(
   findRepeatedFrequency,
   (repeated_frequency) => `Repeated frequency is ${repeated_frequency}`);
 
-const instance = new task.Task(
+new task.Task(
   new task.Parser((line) => Number(line), []),
   null,
   processor1,

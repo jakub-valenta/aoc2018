@@ -47,7 +47,7 @@ class Instruction {
 
 function findAvailable(steps) {
   let available = [];
-  for (let [key, step] of steps) {
+  for (let [, step] of steps) {
     if (steps.size == 0 || isAvailable(steps, step.preceding)) {
       available.push(step);
     }
@@ -97,7 +97,6 @@ class Worker {
 
   start(step) {
     this.step = step;
-    console.log(`starting step ${this.step.id} with duration ${this.step.duration()}s`);
   }
 
   work() {
@@ -197,7 +196,7 @@ const processor1 = new task.Processor(
   (result) => `Instruction finished in order: ${result}`
 );
 
-const instance = new task.Task(new Parser(),
+new task.Task(new Parser(),
   null,
   processor1,
   new ParallelProcesor());

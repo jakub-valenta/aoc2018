@@ -77,7 +77,7 @@ class Guard {
 
 function findMostSleeping1(guards) {
   let most_sleeping_guard = guards.values().next().value;
-  for (const [id, guard] of guards) {
+  for (const [, guard] of guards) {
     if (guard.totalSlept() > most_sleeping_guard.totalSlept()) {
       most_sleeping_guard = guard;
     }
@@ -87,7 +87,7 @@ function findMostSleeping1(guards) {
 
 function findMostSleeping2(guards) {
   let most_sleeping_guard = guards.values().next().value;
-  for (const [id, guard] of guards) {
+  for (const [, guard] of guards) {
     if (guard.mostTimesSlept() > most_sleeping_guard.mostTimesSlept()) {
       most_sleeping_guard = guard;
     }
@@ -107,7 +107,7 @@ const processor2 = new task.Processor(
   (x) => `Most sleeping index2: ${x}`
 );
 
-const instance = new task.Task(
+new task.Task(
   new Parser(),
   null,
   processor1,

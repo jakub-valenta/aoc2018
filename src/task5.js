@@ -68,7 +68,6 @@ class Polymer {
     let smallest = this.size;
     for (let unit of this.units) {
       const size = this.removeUnit(unit).reduce();
-      console.log(`Reducing polymer without ${unit} to size ${size}`);
       if (size < smallest) {
         smallest = size;
       }
@@ -107,7 +106,7 @@ const processor2 = new task.Processor(
   (unit_count) => `Units remaining after unblocked reduction ${unit_count}`
 );
 
-const instance = new task.Task(new Parser(),
+new task.Task(new Parser(),
   null,
   processor1,
   processor2);

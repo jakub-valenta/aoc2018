@@ -49,7 +49,7 @@ class Fabric {
 
   countOverlaping() {
     let count = 0;
-    for (const [point, ids] of this.fabric) {
+    for (const [, ids] of this.fabric) {
       if (ids.length > 1) {
         ++count;
       }
@@ -59,7 +59,7 @@ class Fabric {
 
   findIntact() {
     if (this.claims.size > 1) {
-      for (const [point, ids] of this.fabric) {
+      for (const [, ids] of this.fabric) {
         if (ids.length > 1) {
           for (const id of ids) {
             this.claims.delete(id);
@@ -103,4 +103,4 @@ const processor2 = new task.Processor(
   (claim) => `Intact claim id: ${claim}`
 );
 
-const instance = new task.Task(new task.Parser(parser, []), null, processor1, processor2);
+new task.Task(new task.Parser(parser, []), null, processor1, processor2);

@@ -4,7 +4,7 @@ function calculateChecksum(id_indices) {
   for (const id_index of id_indices) {
     let contain_double = false;
     let contain_triple = false;
-    id_index.forEach((value, key, map) => {
+    id_index.forEach((value) => {
       switch (value) {
         case 2:
           contain_double = true;
@@ -68,9 +68,9 @@ function indexParser(line) {
     index.set(c, count);
   }
   return index;
-};
+}
 
-const instance = new task.Task(
+new task.Task(
   new task.Parser(indexParser, []),
   new task.Parser((line) => line, []),
   new task.Processor(calculateChecksum, (checksum) => `Checksum is ${checksum}`),

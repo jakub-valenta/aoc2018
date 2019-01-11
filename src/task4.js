@@ -1,3 +1,5 @@
+'use strict';
+
 class Parser {
   constructor() {
     this.guards = new Map();
@@ -107,8 +109,13 @@ const processor2 = new task.Processor(
   (x) => `Most sleeping index2: ${x}`
 );
 
-new task.Task(
+const instance = new task.Task(
   new Parser(),
   null,
   processor1,
   processor2);
+
+module.exports.Parser = Parser;
+module.exports.findMostSleeping1 = findMostSleeping1;
+module.exports.findMostSleeping2 = findMostSleeping2;
+module.exports.task = instance;

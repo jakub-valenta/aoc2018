@@ -1,3 +1,5 @@
+'use strict';
+
 function calculateChecksum(id_indices) {
   let doubles = 0;
   let triples = 0;
@@ -70,8 +72,13 @@ function indexParser(line) {
   return index;
 }
 
-new task.Task(
+const instance = new task.Task(
   new task.Parser(indexParser, []),
   new task.Parser((line) => line, []),
   new task.Processor(calculateChecksum, (checksum) => `Checksum is ${checksum}`),
   new task.Processor(findClosest, (id) => `Common letters in correct IDs: ${id}`));
+
+module.exports.indexParser = indexParser;
+module.exports.calculateChecksum = calculateChecksum;
+module.exports.findClosest = findClosest;
+module.exports.task = instance;

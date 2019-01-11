@@ -1,0 +1,22 @@
+{
+  "name": "aoc2018",
+  "version": "0.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "directories": {
+    "test": "./test"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jakub-valenta/aoc2018.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jakub-valenta/aoc2018/issues"
+  },
+  "homepage": "https://github.com/jakub-valenta/aoc2018#readme"
+}

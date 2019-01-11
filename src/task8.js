@@ -1,3 +1,5 @@
+'use strict';
+
 class Node {
   constructor(id, children, metadata) {
     this.id = id;
@@ -92,4 +94,7 @@ const processor2 = new task.Processor(
   (result) => `Metadata value: ${result}`
 );
 
-new task.Task(new Parser(), null, processor1, processor2);
+const instance = new task.Task(new Parser(), null, processor1, processor2);
+
+module.exports.Parser = Parser;
+module.exports.task = instance;

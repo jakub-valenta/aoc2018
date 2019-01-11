@@ -1,21 +1,21 @@
+'use strict';
+
 class Step {
-  constructor(id) {
+  constructor(id, min_step_length) {
     this.id = id;
     this.preceding = [];
+    this.duration = min_step_length + 1 + this.id.charCodeAt(0) - "A".charCodeAt(0);
   }
 
   addPreceding(step) {
     this.preceding.push(step);
   }
-
-  duration() {
-    return 61 + this.id.charCodeAt(0) - "A".charCodeAt(0);
-  }
 }
 
 class Instruction {
-  constructor() {
+  constructor(min_step_length) {
     this.steps = new Map();
+    this.min_step_length = min_step_length;
   }
 
   addStepRelation(step_id, preceding_step_id) {
@@ -26,7 +26,7 @@ class Instruction {
 
   getStep(step_id) {
     if (!this.steps.has(step_id)) {
-      this.steps.set(step_id, new Step(step_id));
+      this.steps.set(step_id, new Step(step_id, this.min_step_length));
     }
     return this.steps.get(step_id);
   }
@@ -74,8 +74,8 @@ function isAvailable(steps, prerequisites) {
 }
 
 class Parser {
-  constructor() {
-    this.data = new Instruction();
+  constructor(min_step_length) {
+    this.data = new Instruction(min_step_length);
   }
 
   parse(line) {
@@ -106,7 +106,7 @@ class Worker {
   }
 
   isFinished() {
-    return this.isRunning() && this.time === this.step.duration();
+    return this.isRunning() && this.time === this.step.duration;
   }
 
   isRunning() {
@@ -120,10 +120,10 @@ class Worker {
 }
 
 class ParallelProcesor {
-  constructor() {
+  constructor(worker_count) {
     this.time = 0;
     this.workers = [];
-    for (let i = 0; i < 5; ++i) {
+    for (let i = 0; i < worker_count; ++i) {
       this.workers.push(new Worker());
     }
     this.unfinished = null;
@@ -196,7 +196,11 @@ const processor1 = new task.Processor(
   (result) => `Instruction finished in order: ${result}`
 );
 
-new task.Task(new Parser(),
+const instance = new task.Task(new Parser(60),
   null,
   processor1,
-  new ParallelProcesor());
+  new ParallelProcesor(5));
+
+module.exports.Parser = Parser;
+module.exports.ParallelProcesor = ParallelProcesor;
+module.exports.task = instance;

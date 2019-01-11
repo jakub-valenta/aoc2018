@@ -106,4 +106,4 @@ const processor2 = new task.Processor(
   (score) => `Winning score 100 times larger: ${score}`
 );
 
-new task.Task(new Game(), null, processor1, processor2);
+new task.Task(new Game(), null, processor1, processor2).run();

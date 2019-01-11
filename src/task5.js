@@ -1,3 +1,5 @@
+'use strict';
+
 class Polymer {
   constructor() {
     this.head = null;
@@ -32,6 +34,7 @@ class Polymer {
       return this.head;
     } else if (x == this.last) {
       x.previous.next = null;
+      this.last = x.previous;
       return this.last;
     } else {
       x.next.previous = x.previous;
@@ -106,7 +109,10 @@ const processor2 = new task.Processor(
   (unit_count) => `Units remaining after unblocked reduction ${unit_count}`
 );
 
-new task.Task(new Parser(),
+const instance = new task.Task(new Parser(),
   null,
   processor1,
   processor2);
+
+module.exports.Parser = Parser;
+module.exports.task = instance;

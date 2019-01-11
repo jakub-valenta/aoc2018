@@ -1,3 +1,5 @@
+'use strict';
+
 const task = require('./task');
 
 class Point {
@@ -103,4 +105,9 @@ const processor2 = new task.Processor(
   (claim) => `Intact claim id: ${claim}`
 );
 
-new task.Task(new task.Parser(parser, []), null, processor1, processor2);
+const instance = new task.Task(new task.Parser(parser, []), null, processor1, processor2);
+
+module.exports.parse = parser;
+module.exports.findOverlaping = findOverlaping;
+module.exports.findIntact = findIntact;
+module.exports.task = instance;

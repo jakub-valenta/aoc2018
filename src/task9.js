@@ -1,3 +1,5 @@
+'use strict';
+
 class Place {
   constructor(value, preceding, next) {
     this.value = value;
@@ -66,11 +68,12 @@ class Game {
       if (i % 23 === 0) {
         this.current = this.current.counterClockWise(7);
         let turn_score = i + this.current.value;
+        let player_score = 0;
         this.current = this.current.remove();
         if (this.score.has(player)) {
-          turn_score += this.score.get(player);
+          player_score = this.score.get(player);
         }
-        this.score.set(player, turn_score);
+        this.score.set(player, turn_score + player_score);
       } else {
         this.current = this.current.clockWise(1).insert(i);
       }
@@ -106,4 +109,7 @@ const processor2 = new task.Processor(
   (score) => `Winning score 100 times larger: ${score}`
 );
 
-new task.Task(new Game(), null, processor1, processor2).run();
+const instance = new task.Task(new Game(), new Game(), processor1, processor2);
+
+module.exports.Game = Game;
+module.exports.task = instance;
